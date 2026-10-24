@@ -1,17 +1,15 @@
 import {configDotenv} from 'dotenv'
-import * as WEB3 from '@solana/web3.js'
 
 configDotenv({
     path: '.env'
 })
 
 const RPC_URL:string = process.env.RPC_URL || "";
-const TOKEN_ID = new WEB3.PublicKey(process.env.TOKEN_ID || "");
-const TOKEN_2022_PROGRAM_ID = new WEB3.PublicKey("TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb")
+const TOKEN_ID = process.env.TOKEN_ID || "";
+const TOKEN_2022_PROGRAM_ID = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
 const WALLET_ADDRESS = process.env.WALLET_ADDRESS || "";
 
 async function main() {
-    const client = new WEB3.Connection(RPC_URL);
     console.log(TOKEN_ID);
     
 
@@ -23,14 +21,14 @@ async function main() {
         id: '1',
         method: 'getProgramAccountsV2',
         params: [
-            TOKEN_2022_PROGRAM_ID.toBase58(),
+            TOKEN_2022_PROGRAM_ID,
             {
                 encoding: 'jsonParsed', 
                 filters: [
                     {
                         memcmp: {
                             offset: 0,
-                            bytes: TOKEN_ID.toBase58(),
+                            bytes: TOKEN_ID,
                         }
                     }
                 ],
@@ -86,7 +84,9 @@ async function main() {
     }
 
     console.log({
-        rank,user_acc
+        rank,
+        noOfHolders,
+        user_acc, 
     });
     
 }
